@@ -1,4 +1,8 @@
-﻿<!DOCTYPE html>
+﻿@{
+    string imagePath = ViewBag.Image != null ? $"~/img/{ViewBag.Image}" : "~/assets/img/home-bg.jpg";
+    string pageType = ViewBag.PostTitle != null ? "post" : "site";
+}
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -33,13 +37,20 @@
         </div>
     </nav>
     <!-- Page Header-->
-    <header class="masthead" style="background-image: url('@Url.Content("~/assets/img/home-bg.jpg")')">
+    <header class="masthead" style="background-image: url('@Url.Content(imagePath)')">
         <div class="container position-relative px-4 px-lg-5">
             <div class="row gx-4 gx-lg-5 justify-content-center">
                 <div class="col-md-10 col-lg-8 col-xl-7">
-                    <div class="site-heading">
-                        <h1>Our Blog</h1>
-                        <span class="subheading">Discover, Share, Inspire: Our Blog's Stories Await</span>
+                    <div class="@pageType-heading">
+                        @if (pageType == "site")
+                        {
+                            <h1>Our Blog</h1>
+                            <span class="subheading">Discover, Share, Inspire: Our Blog's Stories Await</span>
+                        }
+                        else
+                        {
+                            <h1>@ViewBag.PostTitle</h1>
+                        }
                     </div>
                 </div>
             </div>
@@ -54,7 +65,7 @@
         </div>
     </div>
     <!-- Footer-->
-    <footer class="border-top">
+    <footer class="border-top mt-3">
         <div class="container px-4 px-lg-5">
             <div class="row gx-4 gx-lg-5 justify-content-center">
                 <div class="col-md-10 col-lg-8 col-xl-7">
