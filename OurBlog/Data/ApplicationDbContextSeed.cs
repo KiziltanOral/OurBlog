@@ -11,7 +11,7 @@ namespace OurBlog.Data
             var adminPass = "P@ssword1";
             var adminRoleName = "Administrator";
 
-            if (userManager.Users.Any(x => x.UserName == adminEmail))
+            if (userManager.Users.Any(x => x.UserName == adminEmail) || await roleManager.RoleExistsAsync(adminRoleName))
             {
                 return;
             }
@@ -24,7 +24,36 @@ namespace OurBlog.Data
             };
 
             await userManager.CreateAsync(adminUser, adminPass);
+            await roleManager.CreateAsync(new IdentityRole(adminRoleName));
+            await userManager.AddToRoleAsync(adminUser, adminRoleName);
 
+            List<Post> posts = new List<Post>
+            {
+                new Post
+                {
+                    Title = "Captivated by the Dance of the Northern Lights",
+                    Content = "A mesmerizing display of colors across the Arctic skies. Nature's masterpiece at its finest.",
+                    Image = "1.jpg",
+                    AuthorId = adminUser.Id
+                },
+                new Post
+                {
+                    Title = "Love Sealed with a Furry Paw",
+                    Content = "Two hearts, one journey. Celebrating the engagement of a couple with their loyal companion by their side.",
+                    Image = "2.jpg",
+                    AuthorId = adminUser.Id
+                },
+                new Post
+                {
+                    Title = "Redefining Strength: Conquering the Weight Room",
+                    Content = "Determination knows no bounds. Witnessing a man's dedication as he lifts his aspirations along with the weights.",
+                    Image = "3.jpg",
+                    AuthorId = adminUser.Id
+                }
+            };
+
+            db.AddRange(posts);
+            db.SaveChanges();
         }
     }
 }
