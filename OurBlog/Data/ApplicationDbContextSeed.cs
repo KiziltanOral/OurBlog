@@ -16,6 +16,14 @@ namespace OurBlog.Data
                 return;
             }
 
+            var adminUser = new IdentityUser()
+            {
+                UserName = adminEmail,
+                Email = adminEmail,
+                EmailConfirmed = true
+            };
+
+            await userManager.CreateAsync(adminUser, adminPass);
 
         }
     }
