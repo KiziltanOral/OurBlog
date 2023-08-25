@@ -11,8 +11,7 @@ using OurBlog.Data;
 
 namespace OurBlog.Areas.Admin.Controllers
 {
-    [Area("Admin")]
-    public class PostsController : Controller
+    public class PostsController : AdminBaseController
     {
         private readonly ApplicationDbContext _context;
 
